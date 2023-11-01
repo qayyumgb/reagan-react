@@ -76,6 +76,48 @@ const OverviewCardWrap = Styled.div`
     }
     .ant-card-body{
         padding: 25px !important;
+        .ninjadash-overview-card-Sales{
+            .ninjadahs-main-overview-label{
+                color: ${({ theme }) => theme['primary-color']} !important;
+            }
+           .ninjadash-overview-status{
+            &:before{
+                background-color: ${({ theme }) => theme['primary-color']} !important;
+            }
+           }
+        }
+        .ninjadash-overview-card-Parts{
+            .ninjadahs-main-overview-label{
+                color: ${({ theme }) => theme['success-color']} !important;
+            }
+           .ninjadash-overview-status{
+            &:before{
+                background-color: ${({ theme }) => theme['success-color']} !important;
+            }
+           }
+        }
+        .ninjadash-overview-card-Smelt{
+            .ninjadahs-main-overview-label{
+                color: ${({ theme }) => theme['warning-color']} !important;
+            }
+           .ninjadash-overview-status{
+            &:before{
+                background-color: ${({ theme }) => theme['warning-color']} !important;
+            }
+           }
+        }
+        .ninjadash-overview-card-Total{
+            .ninjadahs-main-overview-label{
+                color: ${({ theme }) => theme['info-color']} !important;
+            }
+           .ninjadash-overview-status{
+            &:before{
+                background-color: ${({ theme }) => theme['info-color']} !important;
+            }
+           }
+        }
+        
+
         @media only screen and (max-width: 767px){
             padding: 20px !important;
         }

@@ -1,7 +1,7 @@
 import UilDown from '@iconscout/react-unicons/icons/uil-arrow-down';
 import UilUp from '@iconscout/react-unicons/icons/uil-arrow-up';
 import { Card} from 'antd';
-import propTypes from 'prop-types';
+import propTypes, { object } from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { useLocation } from 'react-router-dom';
@@ -10,18 +10,17 @@ import { OverviewCardWrap } from './Style';
 
 function OverviewCard({ data, className, bottomStatus, contentFirst, halfCircleIcon }) {
   const [didViewCountUp, setDidViewCountUp] = useState(false);
-
   const { pathname } = useLocation();
   useEffect(() => {
     setDidViewCountUp(true);
   }, [pathname]);
-
-  const { type, icon, label, total, status, statusRate, dataPeriod, suffix, prefix, decimels, separator,quanitity,revenue } = data;
+  const { type, icon, total, status, statusRate, dataPeriod, suffix, prefix, decimels, separator,quanitity,revenue } = data;
+  const label = Object.keys(data)
   const totalNumber = Number(total);
   return (
     <OverviewCardWrap className={className}>
       <Card bordered={false} className={halfCircleIcon ? 'ninjadash-overview-halfCircle-card' : null}>
-        <div className={`ninjadash-overview-card ninjadash-overview-card-${type}`}>
+        <div className={`ninjadash-overview-card ninjadash-overview-card-${label}`}>
           <div
             className={
               contentFirst
@@ -78,11 +77,11 @@ function OverviewCard({ data, className, bottomStatus, contentFirst, halfCircleI
           {bottomStatus ? (
             <div className="ninjadash-overview-card__bottom">
               <span className={`ninjadash-overview-status ninjadash-status-${status}`}>
-              <span className="ninjadash-status-label">{quanitity}</span>
+              <span className="ninjadash-status-label">Quanitity</span>
                 <span className="ninjadash-status-rate">
                 <CountUp
                       start={0}
-                      end={didViewCountUp ? totalNumber : 0}
+                      end={didViewCountUp ? data[label].Qty : 0}
                       suffix={suffix}
                       prefix={prefix}
                       delay={0.5}
@@ -94,11 +93,11 @@ function OverviewCard({ data, className, bottomStatus, contentFirst, halfCircleI
                
               </span>
               <span className={`ninjadash-overview-status ninjadash-status-${status}`}>
-              <span className="ninjadash-status-label">{revenue}</span>
+              <span className="ninjadash-status-label">Revenue</span>
                 <span className="ninjadash-status-rate">
                 <CountUp
                       start={0}
-                      end={didViewCountUp ? totalNumber : 0}
+                      end={didViewCountUp ? data[label].Rev : 0}
                       suffix={suffix}
                       prefix={prefix}
                       delay={0.5}

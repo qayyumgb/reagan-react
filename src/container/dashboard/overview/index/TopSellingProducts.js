@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'antd';
+import { AgingDays } from '../../../../redux/gallary/actionCreator';
 import { Cards } from '../../../../components/cards/frame/cards-frame';
 import { TopSellerWrap } from '../../Style';
 import { BorderLessHeading, TableDefaultStyle } from '../../../styled';
@@ -9,39 +11,44 @@ import topProduct from '../../../../demoData/table-data.json';
 
 const { topSaleProduct } = topProduct;
 
-const sellingColumns = [
-  {
-    title: 'WIP Aging Days',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Quantity',
-    dataIndex: 'price',
-    key: 'price',
-  },
-];
+
 
 const TopSellingProduct = React.memo(() => {
+  const dispatch = useDispatch();
+  const value = {
+    "startDate": "08/01/2023",
+    "endDate": "08/30/2023"
+  }
+
+  useEffect(() => {
+    dispatch(AgingDays(value));
+  },[]);
+  const AgingData = useSelector((state) => state.gallery.agingData);
+  const sellingColumns = [
+    {
+      title: 'WIP Aging Days',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'price',
+      key: 'price',
+    },
+  ];
   const [state, setState] = useState({
     sellingTab: 'today',
   });
 
-  const handleChangePeriod = (value, event) => {
-    event.preventDefault();
-    setState({
-      ...state,
-      sellingTab: value,
-    });
-  };
+ 
 
   /* State destructuring */
-  const { sellingTab } = state;
-
+let i = 1
   const sellingData = [];
-  if (topSaleProduct !== null) {
-    topSaleProduct[sellingTab].map((value) => {
-      const { key, name,price } = value;
+  if (AgingData) {
+    AgingData.map((value) => {
+      value = { ...value, key: i++}
+      const { key, Days,Qty } = value;
       return sellingData.push({
         key,
         name: (
@@ -49,10 +56,12 @@ const TopSellingProduct = React.memo(() => {
             {/* <div className="product-img">
               <img src={require(`../../../../static/img/products/electronics/${img}`)} alt="" />
             </div> */}
-            <span className="product-name">{name}</span>
+            <span className="product-name">{Days}</span>
           </div>
         ),
-        price
+        price:(
+          <span className='quatity'>{Qty}</span>
+        )
       });
     });
   }

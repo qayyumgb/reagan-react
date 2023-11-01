@@ -99,7 +99,7 @@ const SalesGrowth = React.memo(() => {
         //     </ul>
         //   </div>
         // }
-        title="Sales Growth"
+        title="Manufacturer Breakdown"
       >
         {!salesGrowthData[sellingTab] ? (
           <div className="sd-spin">

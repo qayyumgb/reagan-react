@@ -2,40 +2,53 @@ import actions from './actions';
 import initialState from '../../demoData/gallery.json';
 import { DataService } from '../../config/dataService/dataService';
 
-const { dashboardCounterBegin, dashboardCounterSuccess, dashboardCounterErr } = actions;
+const { dashboardCounterBegin, dashboardCounterSuccess, dashboardCounterErr,aginDaysErr,agingDaysSuccess,previousMonthSucess,previousMonthErr } = actions;
 
-
-const DashboardCounter = (value) =>{
+const DashboardCounter = (value) => {
   return async (dispatch) => {
-    await DataService.post('dashboard/get-summary',value)
+    dispatch(dashboardCounterBegin());
+    try {
+      await DataService.post('dashboard/get-summary',value)
     .then(response => {
-     console.log(response);
-     dispatch(dashboardCounterSuccess(response));
-    })
-    .catch(error => {
-      dispatch(dashboardCounterErr(error))
+      dispatch(dashboardCounterSuccess(response.data.data));
+    }).catch(error => {
+      dispatch(dashboardCounterErr(error));
       console.log(error)
     });
-  }
- 
-}
+    } catch (err) {
+      dispatch(dashboardCounterErr(err));
+    }
+  };
+};
+const AgingDays = (value) => {
+  return async (dispatch) => {
+    try {
+      await DataService.post('dashboard/get-aging-days',value)
+    .then(response => {
+      dispatch(agingDaysSuccess(response.data.data));
+    }).catch(error => {
+      dispatch(aginDaysErr(error));
+      console.log(error)
+    });
+    } catch (err) {
+      dispatch(aginDaysErr(err));
+    }
+  };
+};
+const PrevousMonth = (value) => {
+  return async (dispatch) => {
+    try {
+      await DataService.post('dashboard/get-prv-month-summary',value)
+    .then(response => {
+      dispatch(previousMonthSucess(response.data.data));
+    }).catch(error => {
+      dispatch(previousMonthErr(error));
+      console.log(error)
+    });
+    } catch (err) {
+      dispatch(previousMonthErr(err));
+    }
+  };
+};
 
-// const DashboardCounter = (value) => {
-//   return async (dispatch) => {debugger
-//     dispatch(dashboardCounterBegin());
-//     try {
-//       await DataService.post('dashboard/get-summary',value)
-//     .then(response => {
-//       dispatch(dashboardCounterSuccess(response));
-//      console.log(response)
-//     }).catch(error => {
-//       dispatch(dashboardCounterErr(error));
-//       console.log(error)
-//     });
-//     } catch (err) {
-//       dispatch(dashboardCounterErr(err));
-//     }
-//   };
-// };
-
-export { DashboardCounter };
+export { DashboardCounter,AgingDays,PrevousMonth };

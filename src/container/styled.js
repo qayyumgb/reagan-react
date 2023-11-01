@@ -4,6 +4,16 @@ const Main = Styled.div`
     padding: 0px 30px 20px;
     min-height: 715px;
     background-color: transparent;
+    .ant-table-autoH{
+        .ant-table{
+            min-height:auto !important;
+        }
+    }
+    .dashboard-summary-table{
+        .ant-table-thead{
+            display:none;
+        }
+    }
     &.grid-boxed{
         padding: 0px 180px 20px;
         @media only screen and (max-width: 1599px){
